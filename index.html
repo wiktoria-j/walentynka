@@ -107,6 +107,15 @@ button {
     pointer-events: none;
     animation: heartBurst 0.8s forwards;
 }
+
+/* GAME HEARTS */
+.game-heart {
+    position: absolute;
+    font-size: 30px;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.2s;
+}
 </style>
 </head>
 
@@ -116,7 +125,7 @@ button {
     <h1>Krystian… 💘</h1>
     <h2>Czy zostaniesz walentynką Wiktorii (misiata słodziaka)?</h2>
 
-    <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif">
+    <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ2o2eWl1aGp6aW11d2Rkbjl1OG5iYW01ZnlsMHUxdDdtNHRldHp2NCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xULW8LtLzpYej0znQ4/giphy.gif">
 
     <div class="buttons">
         <button id="yes" onclick="yes()">TAK 💖</button>
@@ -126,7 +135,7 @@ button {
 
 <!-- MUZYKA -->
 <iframe id="music" style="display:none"
-src="https://open.spotify.com/embed/track/7fLzbEOBOae9lUnOwr7Tse?utm_source=generator"
+src="https://open.spotify.com/track/0vYSTV1Lye2Z2zktF6P39C?si=qW7cREWpTzaYTrGjIn9_Sg&nd=1&dlsi=7f3fcd9f98b24465_source=generator"
 width="300" height="80" frameborder="0"
 allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
 </iframe>
@@ -148,8 +157,8 @@ function runAway() {
 }
 
 /* CONFETTI */
-function confettiBoom() {
-    for (let i = 0; i < 120; i++) {
+function confettiBoom(amount=120) {
+    for (let i = 0; i < amount; i++) {
         const confetti = document.createElement("div");
         confetti.classList.add("confetti");
 
@@ -193,22 +202,69 @@ function heartBurst(x, y) {
     }
 }
 
+/* MINI-GRA */
+function startGame() {
+    const card = document.getElementById("card");
+    card.innerHTML = `<h1>Kliknij wszystkie serduszka! ❤️</h1>
+                      <p>Zdobyte: <span id="score">0</span>/10</p>`;
+
+    const gameArea = document.createElement("div");
+    gameArea.style.position = "relative";
+    gameArea.style.width = "100%";
+    gameArea.style.height = "400px";
+    card.appendChild(gameArea);
+
+    let score = 0;
+    const totalHearts = 10;
+
+    for(let i=0; i<totalHearts; i++){
+        const heart = document.createElement("div");
+        heart.classList.add("game-heart");
+        heart.innerText = "💖";
+        heart.style.left = Math.random() * (gameArea.offsetWidth - 50) + "px";
+        heart.style.top = Math.random() * (gameArea.offsetHeight - 50) + "px";
+        gameArea.appendChild(heart);
+
+        heart.addEventListener("click", function(){
+            heart.remove();
+            score++;
+            document.getElementById("score").innerText = score;
+            if(score === totalHearts){
+                endGame();
+            }
+        });
+    }
+}
+
+/* KONIEC GRY + NAGRODA LODZIK */
+function endGame() {
+    const card = document.getElementById("card");
+    card.innerHTML = `<h1>Zdobyłeś moje ❤️!</h1>
+                      <p>Gratulacje, jesteś moją Walentynką 🥰</p>
+                      <p>Twoja nagroda: 🍦</p>
+                      <div style="font-size:40px;">💘💖💝💞💓</div>`;
+    confettiBoom(150); // jeszcze więcej konfetti na nagrodę
+}
+
 /* YES BUTTON CLICK */
 function yes() {
     confettiBoom();
     const music = document.getElementById("music");
     music.style.display = "block";
 
-    // Burst hearts
     const cardRect = document.getElementById("card").getBoundingClientRect();
     heartBurst(cardRect.left + cardRect.width/2, cardRect.top + cardRect.height/2);
 
+    // Pokaż komunikat Walentynki najpierw
     document.getElementById("card").innerHTML = `
         <h1>WIEDZIAŁAM!!! 💞</h1>
         <p>Wiktoria & Krystian 💖</p>
         <h2>Oficjalnie zostałeś Walentynką swojej narzeczonej 🥰</h2>
         <div style="font-size:40px;">💘💖💝💞💓</div>
     `;
+
+    // Po krótkim czasie start gry
+    setTimeout(startGame, 2500);
 }
 
 /* INIT HEARTS */
