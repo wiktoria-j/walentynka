@@ -1,0 +1,110 @@
+index.html
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Wiktoria ❤️ Krystian</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+}
+
+h1 {
+    color: #e63946;
+}
+
+img {
+    width: 220px;
+    margin: 15px 0;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+button {
+    font-size: 18px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#yes {
+    background: #ff4d6d;
+    color: white;
+}
+
+#no {
+    background: #adb5bd;
+    color: white;
+    position: relative;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+    <h1>Krystian… 💘</h1>
+    <h2>Czy zostaniesz walentynką Wiktorii?</h2>
+
+    <img src="https://i.imgur.com/8p0ZQpJ.png">
+
+    <div class="buttons">
+        <button id="yes" onclick="yes()">TAK 💖</button>
+        <button id="no" onmouseover="runAway()" onclick="no()">NIE 😈</button>
+    </div>
+</div>
+
+<!-- Muzyka -->
+<iframe width="0" height="0"
+src="https://www.youtube.com/embed/5dbEhBKGOtY?autoplay=1&loop=1&playlist=5dbEhBKGOtY"
+allow="autoplay">
+</iframe>
+
+<script>
+let scale = 1;
+
+function no() {
+    scale += 0.5;
+    document.getElementById("yes").style.transform = `scale(${scale})`;
+}
+
+function runAway() {
+    const noBtn = document.getElementById("no");
+    const x = Math.random() * 200 - 100;
+    const y = Math.random() * 200 - 100;
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+}
+
+function yes() {
+    document.getElementById("card").innerHTML = `
+        <h1>WIEDZIAŁAM!!! 💞</h1>
+        <p>Wiktoria & Krystian 💖</p>
+        <h2>Oficjalne Walentynki 🥰</h2>
+        <div style="font-size:40px;">💘💖💝💞💓</div>
+    `;
+}
+</script>
+
+</body>
+</html>
