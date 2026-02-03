@@ -59,12 +59,24 @@ button {
 }
 </style>
 </head>
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    top: -10px;
+    animation: fall 3s linear forwards;
+    z-index: 9999;
+}
 
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
 <body>
 
 <div class="card" id="card">
     <h1>Krystian… 💘</h1>
-    <h2>Czy zostaniesz walentynką Wiktorii (misiata słodziaka) ?</h2>
+    <h2>Czy zostaniesz walentynką Wiktorii (misiata słodziaka)?</h2>
 
     <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif">
 
@@ -76,9 +88,8 @@ button {
 
 <!-- Muzyka -->
 <iframe width="0" height="0"
-<audio id="music">
-    <source src="moja_piosenka.mp3" type="audio/mpeg">
-</audio>
+src="https://open.spotify.com/track/7fLzbEOBOae9lUnOwr7Tse?si=T5qtYZk7TL6iatgLabA2ng&nd=1&dlsi=64122e4d5ec14772"
+allow="autoplay">
 </iframe>
 
 <script>
@@ -95,13 +106,29 @@ function runAway() {
     const y = Math.random() * 200 - 100;
     noBtn.style.transform = `translate(${x}px, ${y}px)`;
 }
+function confettiBoom() {
+    for (let i = 0; i < 80; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+
+        confetti.style.left = Math.random() * window.innerWidth + "px";
+        confetti.style.backgroundColor =
+            ["#ff4d6d", "#ffb703", "#ff7eb3", "#e63946", "#ffd6e0"]
+            [Math.floor(Math.random() * 5)];
+
+        confetti.style.animationDuration = (Math.random() * 2 + 2) + "s";
+
+        document.body.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 3000);
+    }
+}
 function yes() {
-    document.getElementById("music").play();
-function yes() {
+        confettiBoom();
     document.getElementById("card").innerHTML = `
         <h1>WIEDZIAŁAM!!! 💞</h1>
         <p>Wiktoria & Krystian 💖</p>
-        <h2>Oficjalnie zostałeś Walentynką swojej kochanej narzeczonej 🥰</h2>
+        <h2>Oficjalnie zostałeś Walentynką swojej narzeczonej 🥰</h2>
         <div style="font-size:40px;">💘💖💝💞💓</div>
     `;
 }
